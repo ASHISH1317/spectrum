@@ -1,32 +1,27 @@
 // To parse this JSON data, do
 //
-//     final userEntity = userEntityFromMap(jsonString);
+//final userEntity = userEntityFromMap(jsonString);
 
 // ignore_for_file: public_member_api_docs
 import 'dart:convert';
 
+/// User entity
 class UserEntity {
   UserEntity({
-    this.name,
-    this.age,
-    this.salary,
-    this.socialAnimal,
-    this.addresses,
+    this.firstName,
+    this.lastName,
+    this.middleName,
+    this.email,
+    this.mobileNumber,
     this.primaryAddress,
   });
 
   factory UserEntity.fromMap(Map<String, dynamic> json) => UserEntity(
-        name: json['name'] == null ? null : json['name'] as String,
-        age: json['age'] == null ? null : json['age'] as int,
-        salary: json['salary'] == null ? null : json['salary'] as double,
-        socialAnimal: json['social_animal'] == null
-            ? null
-            : json['social_animal'] as bool,
-        addresses: json['addresses'] == null
-            ? null
-            : List<Address>.from((json['addresses']
-                    as List<Map<String, dynamic>>)
-                .map<Address>((Map<String, dynamic> x) => Address.fromMap(x))),
+        firstName: json['first_name'] ?? '',
+        lastName: json['last_name'] ?? '',
+        middleName: json['middle_name'] ?? '',
+        email: json['email'] ?? '',
+        mobileNumber: json['mobile_number'] ?? '',
         primaryAddress: json['primary_address'] == null
             ? null
             : Address.fromMap(json['primary_address'] as Map<String, dynamic>),
@@ -35,46 +30,56 @@ class UserEntity {
   factory UserEntity.fromJson(String str) =>
       UserEntity.fromMap(json.decode(str) as Map<String, dynamic>);
 
-  String? name;
-  int? age;
-  double? salary;
-  bool? socialAnimal;
-  List<Address>? addresses;
+  /// First name
+  String? firstName;
+
+  /// Last name
+  String? lastName;
+
+  /// Middle name
+  String? middleName;
+
+  /// Email
+  String? email;
+
+  /// Mobile number
+  String? mobileNumber;
+
+  /// Primary address
   Address? primaryAddress;
 
+  /// Copy with
   UserEntity copyWith({
-    String? name,
-    int? age,
-    double? salary,
-    bool? socialAnimal,
-    List<Address>? addresses,
+    String? firstName,
+    String? lastName,
+    String? middleName,
+    String? email,
+    String? mobileNumber,
     Address? primaryAddress,
   }) =>
       UserEntity(
-        name: name ?? this.name,
-        age: age ?? this.age,
-        salary: salary ?? this.salary,
-        socialAnimal: socialAnimal ?? this.socialAnimal,
-        addresses: addresses ?? this.addresses,
+        email: email ?? this.email,
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
+        middleName: middleName ?? this.middleName,
+        mobileNumber: mobileNumber ?? this.mobileNumber,
         primaryAddress: primaryAddress ?? this.primaryAddress,
       );
 
   String toJson() => json.encode(toMap());
 
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'name': name,
-        'age': age,
-        'salary': salary,
-        'social_animal': socialAnimal,
-        'addresses': addresses == null
-            ? null
-            : List<Map<String, dynamic>>.from(
-                addresses!.map<Map<String, dynamic>>((Address x) => x.toMap())),
+        'first_name': firstName,
+        'last_name': lastName,
+        'middle_name': middleName,
+        'email': email,
+        'mobile_number': mobileNumber,
         'primary_address':
             primaryAddress == null ? null : primaryAddress!.toMap(),
       };
 }
 
+/// Address
 class Address {
   Address({
     this.city,
@@ -85,6 +90,7 @@ class Address {
     this.places,
   });
 
+  /// From json
   factory Address.fromJson(String str) =>
       Address.fromMap(json.decode(str) as Map<String, dynamic>);
 
@@ -102,13 +108,25 @@ class Address {
 
   String toJson() => json.encode(toMap());
 
+  /// City
   String? city;
+
+  /// State
   String? state;
+
+  /// Pincode
   int? pincode;
+
+  /// Latitude
   double? lat;
+
+  /// Longitude
   double? long;
+
+  /// Places
   List<String>? places;
 
+  /// Copy with
   Address copyWith({
     String? city,
     String? state,
@@ -126,6 +144,7 @@ class Address {
         places: places ?? this.places,
       );
 
+  /// To map
   Map<String, dynamic> toMap() => <String, dynamic>{
         'city': city,
         'State': state,

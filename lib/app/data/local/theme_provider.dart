@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_starter_kit_2024/app/data/local/local_store.dart';
+import 'package:get_starter_kit_2024/app/data/local/store/local_store.dart';
 
 // ignore_for_file: public_member_api_docs
 

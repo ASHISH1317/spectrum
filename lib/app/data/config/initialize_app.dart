@@ -24,7 +24,15 @@ Future<void> initializeCoreApp({
 
   //Firebase products initializations
   if (firebaseApp) {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+        options: const FirebaseOptions(
+          apiKey: 'AIzaSyBLTFELPdgxnXSQ_CExz8447qel1b1ajqM',
+          appId: '1:908055961744:android:dc1b482c430fed90e97815',
+          messagingSenderId: '908055961744',
+          projectId: 'spectrum-aa806',
+          storageBucket: 'spectrum-aa806.appspot.com',
+        ),
+    );
     notificationActions(
       action: notificationAction,
       localNotification: setupLocalNotifications,

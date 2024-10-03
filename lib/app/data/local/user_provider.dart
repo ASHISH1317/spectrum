@@ -1,8 +1,8 @@
 import 'dart:convert';
+
 import 'package:get_starter_kit_2024/app/data/config/encryption.dart';
-import 'package:get_starter_kit_2024/app/data/local/storage_keys.dart';
+import 'package:get_starter_kit_2024/app/data/local/store/local_store.dart';
 import 'package:get_starter_kit_2024/app/data/models/user_entity.dart';
-import 'package:get_storage/get_storage.dart';
 
 /// Helper class for local stored User
 class UserProvider {
@@ -20,37 +20,38 @@ class UserProvider {
   static bool get isLoggedIn => _isLoggedIn;
 
   ///Set [currentUser] and [authToken]
-  static Future<void> onLogin(UserEntity user, String userAuthToken) async {
+  static void onLogin({
+    required UserEntity user,
+    required String userAuthToken,
+  }) {
     _isLoggedIn = true;
     _userEntity = user;
     _authToken = userAuthToken;
-    await GetStorage().write(StorageKeys.userDataKey,
-        AppEncryption.encrypt(plainText: jsonEncode(user.toJson())));
-    await GetStorage().write(StorageKeys.authTokenKey, userAuthToken);
+    LocalStore.user(AppEncryption.encrypt(plainText: user.toJson()));
+    LocalStore.authToken(userAuthToken);
   }
 
   ///Load [currentUser] and [authToken]
   static void loadUser() {
-    final String? encryptedUserData =
-        GetStorage().read<String>(StorageKeys.userDataKey);
+    final String? encryptedUserData = LocalStore.user();
 
     if (encryptedUserData != null) {
       _isLoggedIn = true;
       _userEntity = UserEntity.fromMap(
           jsonDecode(AppEncryption.decrypt(cipherText: encryptedUserData))
-              as Map<String, dynamic>);
-      _authToken = GetStorage().read<String>(StorageKeys.authTokenKey)!;
+          as Map<String, dynamic>);
+      _authToken = LocalStore.authToken();
     } else {
       _isLoggedIn = false;
     }
   }
 
   ///Remove [currentUser] and [authToken] from local storage
-  static Future<void> onLogout() async {
+  static void onLogout() {
     _isLoggedIn = false;
     _userEntity = null;
     _authToken = null;
-    await GetStorage().remove(StorageKeys.userDataKey);
-    await GetStorage().remove(StorageKeys.authTokenKey);
+    LocalStore.user.erase();
+    LocalStore.authToken.erase();
   }
 }

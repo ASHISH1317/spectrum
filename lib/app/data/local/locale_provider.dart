@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:get/get.dart';
-import 'package:get_starter_kit_2024/app/data/local/local_store.dart';
+import 'package:get_starter_kit_2024/app/data/local/store/local_store.dart';
 
 /// Helper class for localization
 class LocaleProvider {
